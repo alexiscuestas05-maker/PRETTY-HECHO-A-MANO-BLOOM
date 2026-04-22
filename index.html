@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRETTY HECHO A MANO BLOOM — Place your order</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #e8668a;
+    --rose-light: #f7d6e3;
+    --rose-pale: #fdf0f5;
+    --rose-deep: #c2446b;
+    --petal: #fce8f0;
+    --cream: #fdfaf8;
+    --text: #3a2030;
+    --text-muted: #9a7080;
+    --border: #f0cdd9;
+    --white: #ffffff;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 10% 20%, #fce8f080 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 90% 80%, #f7d6e360 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, #fdf0f540 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  /* Nueva sección de imagen */
+  .logo-container {
+    text-align: center;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .logo-container img {
+    max-width: 250px;
+    height: auto;
+  }
+
+  .social-card { text-align: center; margin-bottom: 2rem; animation: fadeUp 0.7s ease both; }
+  .instagram-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    padding: 12px 24px;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(232,102,138,0.1);
+  }
+  .instagram-link span { color: var(--rose-deep); font-weight: 600; }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    animation: fadeUp 0.5s ease both;
+    box-shadow: 0 2px 20px rgba(232,102,138,0.06);
+  }
+
+  .card-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 6px; }
+  .field input, .field textarea {
+    width: 100%; padding: 12px 14px; font-size: 15px; font-family: 'DM Sans', sans-serif;
+    color: var(--text); background: var(--rose-pale); border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm); outline: none; transition: all 0.2s;
+  }
+
+  /* Time Picker Styles */
+  .time-picker-wrap { display: flex; gap: 10px; align-items: center; }
+  .ampm-group { display: flex; background: var(--rose-pale); padding: 4px; border-radius: var(--radius-sm); border: 1.5px solid var(--border); }
+  .ampm-btn {
+    padding: 8px 12px; border: none; background: transparent; font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 6px; transition: 0.2s;
+  }
+  .ampm-btn.active { background: var(--rose); color: white; }
+
+  .pay-option {
+    display: flex; align-items: center; justify-content: space-between; background: var(--rose-pale); padding: 14px;
+    border-radius: var(--radius-sm); border: 1.5px solid var(--border); margin-bottom: 10px; cursor: pointer; transition: 0.2s;
+  }
+  .pay-option.sel { border-color: var(--rose); background: var(--petal); }
+  .pay-option .check-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); position: relative; }
+  .pay-option.sel .check-dot { border-color: var(--rose); background: var(--rose); }
+  .pay-option.sel .check-dot::after { content: ''; position: absolute; width: 8px; height: 8px; background: white; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; }
+  .color-chip { border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 10px 6px 8px; text-align: center; cursor: pointer; background: var(--white); transition: all 0.2s; }
+  .color-chip.sel { border-color: var(--rose); background: var(--petal); box-shadow: 0 0 0 3px var(--rose-light); }
+  .color-dot { width: 30px; height: 30px; border-radius: 50%; margin: 0 auto 6px; border: 1px solid rgba(0,0,0,0.08); }
+
+  .qty-wrap { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+  .qty-btn { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--rose-pale); color: var(--rose-deep); font-size: 20px; cursor: pointer; }
+  .qty-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 600; color: var(--rose-deep); }
+
+  .price-tag { display: inline-block; background: var(--rose-pale); color: var(--rose-deep); padding: 8px 14px; border-radius: 8px; font-weight: 600; font-size: 14px; margin-bottom: 15px; border: 1px dashed var(--rose); }
+
+  .qty-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+  .qty-pre { padding: 6px 12px; border: 1.5px solid var(--border); border-radius: 20px; background: var(--white); font-size: 12px; cursor: pointer; }
+  .qty-pre.active { background: var(--rose-light); border-color: var(--rose); }
+
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .toggle-sw { width: 44px; height: 24px; border-radius: 12px; background: var(--border); position: relative; cursor: pointer; transition: 0.3s; }
+  .toggle-sw.on { background: var(--rose); }
+  .toggle-sw::after { content: ''; position: absolute; width: 18px; height: 18px; background: white; border-radius: 50%; top: 3px; left: 3px; transition: 0.3s; }
+  .toggle-sw.on::after { transform: translateX(20px); }
+
+  .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--rose) 0%, var(--rose-deep) 100%); color: white; border: none; border-radius: var(--radius); font-size: 17px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(194,68,107,0.3); }
+
+  .success-wrap { display: none; text-align: center; padding: 2rem; background: white; border-radius: var(--radius); border: 1px solid var(--border); }
+  .success-wrap.show { display: block; }
+  .extra-reveal, .address-field, .otro-field { display: none; }
+  .open, .show { display: block; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="logo-container">
+    <img src="C:\Users\Leonardo\Desktop\pagina web 1\Pretty Bloom Logo.jpeg" alt="Pretty Bloom Logo">
+  </div>
+
+  <div class="social-card">
+    <a href="https://www.instagram.com/prettybloom.614" target="_blank" class="instagram-link">
+      📸 View more photos: <span>@Prettybloom.614</span>
+    </a>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Service Policies</div>
+    <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+      • Orders must be placed 5 days or 48 hours in advance.<br>
+      • 50% deposit required to confirm.<br>
+      • No refunds for cancellations.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Your Information</div>
+    <div class="field">
+      <label>Full Name *</label>
+      <input type="text" id="nombre" placeholder="Enter your name">
+    </div>
+    <div class="field">
+      <label>Phone Number *</label>
+      <input type="tel" id="celular" placeholder="+1 000-000-0000">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Payment Method</div>
+    <div class="pay-option" onclick="pickPay(this)" data-pay="Cash">
+      <div class="pay-text"><strong>Cash</strong><br><small>Physical payment</small></div>
+      <div class="check-dot"></div>
+    </div>
+    <div class="pay-option" onclick="pickPay(this)" data-pay="Dinero Celular">
+      <div class="pay-text"><strong>Zelle</strong><br><small>Transfer to: 6148159366</small></div>
+      <div class="check-dot"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Quantity</div>
+    <div class="qty-wrap">
+      <button class="qty-btn" onclick="chgQty(-1)">-</button>
+      <div class="qty-num" id="qtyNum">25</div>
+      <span style="color:var(--text-muted)">roses</span>
+      <button class="qty-btn" onclick="chgQty(1)">+</button>
+    </div>
+    <div id="priceDisplay" class="price-tag">Price: $88.00</div>
+    <div class="qty-presets">
+      <button class="qty-pre active" onclick="setQty(25)">25</button>
+      <button class="qty-pre" onclick="setQty(50)">50</button>
+      <button class="qty-pre" onclick="setQty(75)">75</button>
+      <button class="qty-pre" onclick="setQty(100)">100</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Rose Color *</div>
+    <div class="color-grid">
+      <div class="color-chip" onclick="pickColor(this)" data-color="Red"><div class="color-dot" style="background:#C0392B;"></div>Red</div>
+      <div class="color-chip" onclick="pickColor(this)" data-color="Pink"><div class="color-dot" style="background:#E91E8C;"></div>Pink</div>
+      <div class="color-chip" onclick="pickColor(this)" data-color="White"><div class="color-dot" style="background:#F5F5F5;"></div>White</div>
+      <div class="color-chip" onclick="pickColor(this)" data-color="Other"><div class="color-dot" style="background:linear-gradient(45deg, #ccc, #eee);"></div>Other</div>
+    </div>
+    <div class="otro-field" id="otroField" style="margin-top:10px">
+      <input type="text" id="otroColor" placeholder="Describe your color(s)...">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Extras</div>
+    <div class="toggle-row"><span>Crown — $4</span><div class="toggle-sw" id="swCrown" onclick="toggle('Crown')"></div></div>
+    <div class="toggle-row"><span>Butterflies (2 pieces) — $1</span><div class="toggle-sw" id="swButterflies" onclick="toggle('Butterflies')"></div></div>
+    
+    <div class="toggle-row"><span>Ribbon Message — $3</span><div class="toggle-sw" id="swRibbon" onclick="toggle('Ribbon')"></div></div>
+    <div class="extra-reveal" id="revRibbon"><input type="text" id="txtRibbon" placeholder="Ribbon text..."></div>
+
+    <div class="toggle-row"><span>Diamond Pins — $0.50</span><div class="toggle-sw" id="swDiamond" onclick="toggle('Diamond')"></div></div>
+    <div class="toggle-row"><span>Pearl Pins — $0.50</span><div class="toggle-sw" id="swPearl" onclick="toggle('Pearl')"></div></div>
+
+    <div class="toggle-row"><span>Plush Toy — $10 to $30</span><div class="toggle-sw" id="swPlush" onclick="toggle('Plush')"></div></div>
+    <div class="extra-reveal" id="revPlush"><input type="text" id="txtPlush" placeholder="Size preference..."></div>
+
+    <div class="toggle-row"><span>Photos (each) — $4</span><div class="toggle-sw" id="swPhotos" onclick="toggle('Photos')"></div></div>
+    <div class="extra-reveal" id="revPhotos"><input type="number" id="numPhotos" placeholder="How many photos?"></div>
+
+    <div class="toggle-row"><span>Personalized Card — $3</span><div class="toggle-sw" id="swPersCard" onclick="toggle('PersCard')"></div></div>
+    <div class="toggle-row"><span>Glitter on Roses — $5 extra</span><div class="toggle-sw" id="swGlitter" onclick="toggle('Glitter')"></div></div>
+    <div class="toggle-row"><span>Fairy LED Lights — $7</span><div class="toggle-sw" id="swLights" onclick="toggle('Lights')"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Order Details</div>
+    <div class="field">
+      <label>Pickup/Delivery Date *</label>
+      <input type="date" id="fecha">
+    </div>
+    
+    <div class="field">
+      <label>Pickup/Delivery Time *</label>
+      <div class="time-picker-wrap">
+        <input type="time" id="hora" style="flex: 1;">
+        <div class="ampm-group">
+          <button class="ampm-btn active" id="btnAM" onclick="setAMPM('AM')">AM</button>
+          <button class="ampm-btn" id="btnPM" onclick="setAMPM('PM')">PM</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Message (Optional)</label>
+      <textarea id="mensaje" placeholder="Dedication for the card..."></textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Delivery Method *</div>
+    <div class="qty-presets" style="margin-bottom:15px">
+      <button class="qty-pre" id="btnPickup" onclick="setDel('Pick up')">🏪 Pick up</button>
+      <button class="qty-pre" id="btnDelivery" onclick="setDel('Delivery')">🛵 Delivery</button>
+    </div>
+    <div class="address-field" id="addrField">
+      <input type="text" id="direccion" placeholder="Full delivery address...">
+    </div>
+  </div>
+
+  <button class="submit-btn" onclick="enviar()">Send Order 🌸</button>
+
+  <div class="success-wrap" id="successBox">
+    <div style="font-size:40px">🌸</div>
+    <h3>Order Received!</h3>
+    <div id="orderCard" style="text-align:left; margin-top:15px; font-size:13px; background:var(--rose-pale); padding:15px; border-radius:10px;"></div>
+  </div>
+</div>
+
+<script>
+  let qty = 25;
+  let ampm = 'AM';
+  let colorSel = '';
+  let delMethod = '';
+  let paySel = '';
+
+  // Base de precios ajustada para cálculo dinámico
+  const baseQty = 25;
+  const basePrice = 88;
+  const unitPrice = 3.50;
+
+  function pickPay(el) {
+    document.querySelectorAll('.pay-option').forEach(p => p.classList.remove('sel'));
+    el.classList.add('sel');
+    paySel = el.dataset.pay;
+  }
+
+  function pickColor(el) {
+    document.querySelectorAll('.color-chip').forEach(c => c.classList.remove('sel'));
+    el.classList.add('sel');
+    colorSel = el.dataset.color;
+    document.getElementById('otroField').classList.toggle('show', colorSel === 'Other');
+  }
+
+  function setAMPM(val) {
+    ampm = val;
+    document.getElementById('btnAM').classList.toggle('active', val === 'AM');
+    document.getElementById('btnPM').classList.toggle('active', val === 'PM');
+  }
+
+  function setDel(method) {
+    delMethod = method;
+    document.getElementById('btnPickup').classList.toggle('active', method === 'Pick up');
+    document.getElementById('btnDelivery').classList.toggle('active', method === 'Delivery');
+    document.getElementById('addrField').classList.toggle('open', method === 'Delivery');
+  }
+
+  function setQty(n) {
+    qty = n;
+    const currentPrice = basePrice + ((qty - baseQty) * unitPrice);
+    document.getElementById('qtyNum').textContent = n;
+    document.querySelectorAll('.qty-pre').forEach(b => b.classList.toggle('active', parseInt(b.textContent) === n));
+    document.getElementById('priceDisplay').textContent = `Price: $${currentPrice.toFixed(2)}`;
+  }
+
+  function chgQty(d) {
+    let n = qty + d;
+    if(n >= 1) setQty(n); // Mantiene mínimo 1 rosa
+  }
+
+  function toggle(name) {
+    const sw = document.getElementById('sw' + name);
+    const rev = document.getElementById('rev' + name);
+    sw.classList.toggle('on');
+    if(rev) rev.classList.toggle('open', sw.classList.contains('on'));
+  }
+
+  function enviar() {
+    const nombre = document.getElementById('nombre').value;
+    const fecha = document.getElementById('fecha').value;
+    const hora = document.getElementById('hora').value;
+
+    if(!nombre || !fecha || !hora || !delMethod || !colorSel) {
+      alert('Please fill in all required fields.'); return;
+    }
+
+    const fullTime = `${hora} ${ampm}`;
+    
+    let extrasList = [];
+    ['Crown','Butterflies','Ribbon','Diamond','Pearl','Plush','Photos','PersCard','Glitter','Lights'].forEach(e => {
+      const el = document.getElementById('sw'+e);
+      if(el && el.classList.contains('on')) extrasList.push(e);
+    });
+
+    const formData = new FormData();
+    formData.append("Customer", nombre);
+    formData.append("Schedule", `${fecha} at ${fullTime}`);
+    formData.append("Quantity", qty);
+    formData.append("Color", colorSel);
+    formData.append("Extras", extrasList.join(', '));
+    formData.append("Method", delMethod);
+
+    fetch("https://formspree.io/f/xbdqzyjj", { method: "POST", body: formData, headers: { "Accept": "application/json" }});
+
+    document.getElementById('orderCard').innerHTML = `<strong>Customer:</strong> ${nombre}<br><strong>Schedule:</strong> ${fecha} ${fullTime}<br><strong>Items:</strong> ${qty} Roses (${colorSel})<br><strong>Extras:</strong> ${extrasList.length ? extrasList.join(', ') : 'None'}`;
+    document.getElementById('successBox').classList.add('show');
+    document.querySelector('.submit-btn').style.display = 'none';
+  }
+</script>
+</body>
+</html>
